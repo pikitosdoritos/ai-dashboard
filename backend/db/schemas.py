@@ -8,7 +8,8 @@ class TaskCreate(BaseModel):
     status: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 
 class TaskRead(BaseModel):
     id: int
@@ -18,7 +19,8 @@ class TaskRead(BaseModel):
     status: str 
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 
 class TaskUpdate(BaseModel):
     task: Optional[str] = None
@@ -26,4 +28,5 @@ class TaskUpdate(BaseModel):
     status: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+

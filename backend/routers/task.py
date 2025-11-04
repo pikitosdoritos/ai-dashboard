@@ -30,7 +30,7 @@ def create_tasks(tasks: TaskCreate, db: Session = Depends(get_db)):
 
     return new_task
 
-@router.get("tasks", response_model = List[TaskRead])
+@router.get("/", response_model = List[TaskRead])
 def get_tasks(db: Session = Depends(get_db)):
     return db.query(Tasks).all()
 
@@ -60,3 +60,18 @@ def update_tasks(
     db.refresh(db_id)
 
     return db_id
+
+@router.delete("/tasks/{id}")
+def delete_task(
+    id: int,
+    db: Session = Depends(get_db)
+):
+    db_id = db.query(Tasks).filter(Tasks.id == id).first()
+
+    if db_id is None:
+        raise HTTPException(status_code=404, detail='Task with ID doesn`t exist!')
+        
+    elif db_id is not None:
+        db.delete(db_id)
+        db.commit()
+        return {"detail": 'Task deleted'}
